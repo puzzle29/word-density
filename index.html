@@ -1,0 +1,502 @@
+<!-- 
+##################################
+####   Made with ❤ by Konig   ####
+####  koudogbokonig@gmail.com ####
+################################## 
+-->
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../vendor/animate.min.css">
+
+    <title>Calcul de densité!</title>
+
+    <style>
+        .separateur {
+            height: 30px;
+        }
+
+        .singleBloc,
+        .twoBloc {
+            margin-top: 30px;
+        }
+
+        .threeBloc,
+        .fourBloc {
+            margin-top: 30px;
+        }
+
+        .reduire {
+            float: right;
+        }
+
+        .statistique .btn-link:hover {
+            text-decoration: none;
+        }
+
+        .card-body {
+            padding: 0px;
+            max-height: 21em;
+            overflow-y: scroll;
+        }
+
+        .statistique th {
+            color: #007bff;
+        }
+
+        .aide {
+            padding: 0px;
+            width: 30px;
+            height: 30px;
+            border-radius: 15px;
+        }
+
+        @media (min-width: 992px) {
+            .les-champs {
+                padding-left: 10em;
+                padding-right: 10em;
+            }
+        }
+
+        /* footer */
+        .footer-heart{text-align:center;font-family: open sans, sans-serif;}
+
+        .footer-heart a{border-bottom: 1px solid #453886;color: #453886;padding-bottom: .25em; text-decoration: none;}
+
+        .footer-heart a:hover{color:#2196f3; background-image: url("data:image/svg+xml;charset=utf8,%3Csvg id='squiggle-link' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml-events' viewBox='0 0 20 4'%3E%3Cstyle type='text/css'%3E.squiggle{animation:shift .3s linear infinite;}@keyframes shift {from {transform:translateX(0);}to {transform:translateX(-20px);}}%3C/style%3E%3Cpath fill='none' stroke='%23453886' stroke-width='2' class='squiggle' d='M0,3.5 c 5,0,5,-3,10,-3 s 5,3,10,3 c 5,0,5,-3,10,-3 s 5,3,10,3'/%3E%3C/svg%3E");
+        background-position: bottom;
+        background-repeat: repeat-x;
+        background-size: 20%;
+        border-bottom: 0;
+        padding-bottom: .3em;
+        text-decoration: none;}
+
+        .emoji{vertical-align: middle;}
+    </style>
+</head>
+
+<body>
+    <div class="text-center">
+        <h1>Calcul de densité de mots</h1>
+    </div>
+    <hr>
+    <div class="container pb-5" id="app">
+        <div class="les-champs">
+            <!-- Choix web ou texte -->
+            <div class="les-choix">
+                <div class="form-check">
+                    <table>
+                        <tr>
+                            <td>
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" name="choix" id="choix1" value="web"
+                                        v-model="documentType">
+                                    Page Web
+                                </label>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-light aide" data-toggle="tooltip"
+                                    data-placement="right" title="Calculer la densité d'une page web">
+                                    ?
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" name="choix" id="choix2" value="texte"
+                                        v-model="documentType">
+                                    Texte
+                                </label>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-light aide" data-toggle="tooltip"
+                                    data-placement="right" title="Calculer la densité d'un texte">
+                                    ?
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <hr>
+            <!-- Bloc Web -->
+            <div v-if="documentType === 'web'">
+                <form>
+                    <h3><u>Page Web</u></h3>
+                    <div class="les-choix">
+                        <div class="form-check">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="radio" name="visible" id="visible1"
+                                                value="visible" v-model="visible">
+                                            Mots visibles
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-light aide" data-toggle="tooltip"
+                                            data-placement="right"
+                                            title="Calculer la densité des mots visibles d'une page web">
+                                            ?
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="radio" name="visible" id="visible2"
+                                                value="source" v-model="visible">
+                                            Code source
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-light aide" data-toggle="tooltip"
+                                            data-placement="right"
+                                            title="Calculer la densité du code source d'une page web">
+                                            ?
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" name="apostrophe"
+                                                id="choix-apostrophe1" value="apostrophe" v-model="apostrophe">
+                                            Apostrophe
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-light aide" data-toggle="tooltip"
+                                            data-html="true" data-placement="right"
+                                            title='Activer "Apostrophe" pour considerer <c&rsquo;est> comme deux mots.
+                                                N&rsquo;activer pas "Apostrophe" pour considerer <c&rsquo;est> comme un mot.'>
+                                            ?
+                                        </button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="urlInput">Lien :</label>
+                        <input type="url" class="form-control" id="urlInput" placeholder="Ex: http://www.lesite.com"
+                            v-model="champUrl">
+                        <div class="invalid-feedback">
+                            Veuillez entrer une URL valide.
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary" @click="density('web')"
+                        :class="{disabled : champUrl.length <= 0}">Calculer la densité</button>
+                </form>
+            </div>
+            <!-- Bloc texte -->
+            <div v-else>
+                <form>
+                    <h3><u>Texte</u></h3>
+                    <div class="les-choix">
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" name="apostrophe" id="choix-apostrophe2"
+                                    value="apostrophe" v-model="apostrophe">
+                                Apostrophe
+                            </label>
+                            <button type="button" class="btn btn-light aide" data-toggle="tooltip" data-html="true"
+                                data-placement="right"
+                                title='Activer "Apostrophe" pour considerer <c&rsquo;est> comme deux mots.
+                                        N&rsquo;activer pas "Apostrophe" pour considerer <c&rsquo;est> comme un mot.'>
+                                ?
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="texte">Champ de texte :</label>
+                        <textarea class="form-control" id="texte" rows="10" placeholder="Tapez ou coller un texte"
+                            v-model="champTexte"></textarea>
+                    </div>
+                    <button type="button" class="btn btn-primary" :class="{disabled : champTexte.length <= 0}"
+                        @click="density('text')">Calculer la densité</button>
+                </form>
+            </div>
+            <hr class="mt-5">
+            <h3><u>Résultats</u></h3>
+        </div>
+        <div class="">
+            <div class="statistique">
+                <div class="row">
+                    <!-- Single word -->
+                    <div class="col-md bloc singleBloc">
+                        <div class="accordion" id="singleWord">
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block text-left" type="button"
+                                            data-toggle="collapse" data-target="#collapseSingle" aria-expanded="true"
+                                            aria-controls="collapseSingle">
+                                            Single Keywords <b class="reduire">&#8722;</b>
+                                        </button>
+                                    </h2>
+                                </div>
+
+                                <div id="collapseSingle" class="collapse show" aria-labelledby="headingOne"
+                                    data-parent="#singleWord">
+                                    <div class="card-body">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Keyword</th>
+                                                    <th scope="col">Occurence</th>
+                                                    <th scope="col">Density</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(occur, word) in singleWord">
+                                                    <td>{{decodeUtf8(word)}}</th>
+                                                    <td>{{occur}}</td>
+                                                    <td>{{((occur * 100) / lengthSingle).toFixed(2)}} %</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Two words -->
+                    <div class="col-md bloc twoBloc">
+                        <div class="accordion" id="twoWords">
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block text-left" type="button"
+                                            data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
+                                            aria-controls="collapseTwo">
+                                            Two Word Keywords <b class="reduire">&#8722;</b>
+                                        </button>
+                                    </h2>
+                                </div>
+
+                                <div id="collapseTwo" class="collapse show" aria-labelledby="headingOne"
+                                    data-parent="#twoWords">
+                                    <div class="card-body">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Keyword</th>
+                                                    <th scope="col">Occurence</th>
+                                                    <th scope="col">Density</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(occur, word) in twoWords">
+                                                    <td>{{word}}</th>
+                                                    <td>{{occur}}</td>
+                                                    <td>{{((occur * 100) / lengthTwo).toFixed(2)}} %</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- Three words -->
+                    <div class="col-md bloc threeBloc">
+                        <div class="accordion" id="threeWords">
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block text-left" type="button"
+                                            data-toggle="collapse" data-target="#collapseThree" aria-expanded="true"
+                                            aria-controls="collapseThree">
+                                            Three Word Keywords <b class="reduire">&#8722;</b>
+                                        </button>
+                                    </h2>
+                                </div>
+
+                                <div id="collapseThree" class="collapse show" aria-labelledby="headingOne"
+                                    data-parent="#threeWords">
+                                    <div class="card-body">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Keyword</th>
+                                                    <th scope="col">Occurence</th>
+                                                    <th scope="col">Density</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(occur, word) in threeWords">
+                                                    <td>{{word}}</th>
+                                                    <td>{{occur}}</td>
+                                                    <td>{{((occur * 100) / lengthThree).toFixed(2)}} %</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Four words -->
+                    <div class="col-md bloc fourBloc">
+                        <div class="accordion" id="fourWords">
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block text-left" type="button"
+                                            data-toggle="collapse" data-target="#collapseFour" aria-expanded="true"
+                                            aria-controls="collapseFour">
+                                            Four Word Keywords <b class="reduire">&#8722;</b>
+                                        </button>
+                                    </h2>
+                                </div>
+
+                                <div id="collapseFour" class="collapse show" aria-labelledby="headingOne"
+                                    data-parent="#fourWords">
+                                    <div class="card-body">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Keyword</th>
+                                                    <th scope="col">Occurence</th>
+                                                    <th scope="col">Density</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(occur, word) in fourWords">
+                                                    <td>{{word}}</th>
+                                                    <td>{{occur}}</td>
+                                                    <td>{{((occur * 100) / lengthFour).toFixed(2)}} %</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="foot">
+        <p class="footer-heart">
+            Contact-me for any suggestion or improvement.<br>
+            Made with <g-emoji class="g-emoji" alias="heart" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2764.png">
+            <img class="emoji" alt="heart" height="20" width="20" src="https://github.githubassets.com/images/icons/emoji/unicode/2764.png"></g-emoji> by <a href="mailto:koudogbokonig@gmail.com">Konig</a>
+        </p>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="../vendor/jquery-3.5.1.slim.min.js"></script>
+    <script src="../vendor/popper.min.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../vendor/vue.js"></script>
+    <script src="../vendor/vue-resource.min.js"></script>
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+
+        Vue.http.options.emulateJSON = true
+        Vue.config.productionTip = false
+
+        new Vue({
+            el: '#app',
+            data: {
+                documentType: 'web',
+                visible: 'visible',
+                apostrophe: true,
+                champTexte: `
+                array_map() retourne un tableau contenant les résultats de l'application de la fonction de rappel callback à l'index correspondant de array1 (et ... si plus de tableaux sont fourni) utilisé en tant qu'arguments pour la fonction de rappel. Le nombre de paramètres que la fonction de rappel callback accepte devrait correspondre au nombre de tableaux passé à array_map().
+                `,
+                champUrl: '',
+                singleWord: '',
+                twoWords: '',
+                threeWords: '',
+                fourWords: '',
+                lengthSingle: '',
+                lengthTwo: '',
+                lengthThree: '',
+                lengthFour: '',
+                checkedInteret: [],
+                a : ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juill.", "août", "oct.", "nov.", "sept.", "déc."]
+            },
+            methods: {
+                density: function (type) {
+                    if (type === 'web') {
+                        this.checkUrl('urlInput')
+                        this.$http.post('traitement.php', { url: this.champUrl, apostrophe: this.apostrophe, visible: this.visible }).then(
+                            response => {
+                                this.singleWord = response.body[0].single
+                                this.twoWords = response.body[0].two
+                                this.threeWords = response.body[0].three
+                                this.fourWords = response.body[0].four
+                                // length
+                                this.lengthSingle = response.body[1].single
+                                this.lengthTwo = response.body[1].two
+                                this.lengthThree = response.body[1].three
+                                this.lengthFour = response.body[1].four
+                            },
+                            response => {
+
+                            }
+                        )
+                    } else if (type === 'text') {
+                        if (this.champTexte.length <= 0) { return; }
+                        this.$http.post('traitement.php', { text: this.champTexte, apostrophe: this.apostrophe }).then(
+                            response => {
+                                // console.log(response.body[0].single)
+                                this.singleWord = response.body[0].single
+                                this.twoWords = response.body[0].two
+                                this.threeWords = response.body[0].three
+                                this.fourWords = response.body[0].four
+                                // length
+                                this.lengthSingle = response.body[1].single
+                                this.lengthTwo = response.body[1].two
+                                this.lengthThree = response.body[1].three
+                                this.lengthFour = response.body[1].four
+                            },
+                            response => {
+
+                            }
+                        )
+                    }
+                },
+                checkUrl: function (elm) {
+                    if (this.champUrl.length <= 0) { return; }
+                    let $elm = $('#' + elm)
+                    let reg = /^(https?|ftp|torrent|image|irc):\/\/(-\.)?([^\s\/?\.#]+\.?)+(\/[^\s]*)?$/i
+                    if (reg.test($elm.val())) {
+                        $elm.addClass('is-valid')
+                        $elm.removeClass('is-invalid')
+                    } else {
+                        $elm.addClass('is-invalid')
+                        $elm.removeClass('is-valid')
+                    }
+                },
+                decodeUtf8(s) {
+                    try {
+                        return decodeURIComponent(escape(s));
+                    } catch (e) {
+                        console.log(e)
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
